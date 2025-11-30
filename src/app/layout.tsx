@@ -33,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
       site?.seo?.description || "Lfkcy's articles about programming and life",
     keywords: site?.seo?.keywords || [],
     openGraph: {
-      title: 'Lfkcy 博客’ 一个专注前端 & Ai的网站,',
+      title: 'Lfkcy 博客’ 一个专注前端 & AI的网站,',
       siteName: "Lfkcy 博客",
       description: site?.seo?.description || "Lfkcy's articles about programming and life",
       type: "website",
