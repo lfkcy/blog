@@ -3,11 +3,10 @@ import { createApiParams, RequestValidator } from "@/utils/api-helpers";
 
 export const dynamic = 'force-dynamic';
 
-// 允许的域名配置
-const ALLOWED_DOMAINS = [
-    'next-blog.oss-cn-beijing.aliyuncs.com',
-    // 可以添加其他允许的域名
-];
+const ALLOWED_PROTOCOLS = new Set(['http:', 'https:']);
+const ALLOWED_HOSTNAMES = new Set([
+    'lfkcy-blog.oss-cn-beijing.aliyuncs.com',
+]);
 
 // 响应接口
 interface ProxyContentResponse {
@@ -33,10 +32,12 @@ export const GET = withErrorHandler<[Request], ProxyContentResponse>(async (requ
         return errorResponse(ApiErrors.BAD_REQUEST('无效的URL格式'));
     }
 
-    // 验证URL是否来自允许的域名（安全检查）
-    const isAllowedDomain = ALLOWED_DOMAINS.some(domain =>
-        urlObj.hostname.includes(domain)
-    );
+    if (!ALLOWED_PROTOCOLS.has(urlObj.protocol)) {
+        return errorResponse(ApiErrors.FORBIDDEN('不支持的协议'));
+    }
+
+    // 只允许明确配置的 OSS bucket，避免把接口放宽成通用代理。
+    const isAllowedDomain = ALLOWED_HOSTNAMES.has(urlObj.hostname);
 
     if (!isAllowedDomain) {
         return errorResponse(ApiErrors.FORBIDDEN('不允许的域名'));

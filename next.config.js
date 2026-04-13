@@ -12,7 +12,6 @@ const nextConfig = {
       "images.unsplash.com",
       "iad.microlink.io",
       "avatars.githubusercontent.com",
-      "next-blog.oss-cn-beijing.aliyuncs.com",
       "blog.xyich.cn",
       "sealoshzh.site",
       "p0-xtjj-private.juejin.cn",
